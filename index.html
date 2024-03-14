@@ -5,15 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Snake Game</title>
     <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
+
     <div class="body">
+
         <div id="score">Score: 0</div>
         <div id="maxScoreCont">Max Score: 0</div>
         <div id="board">
+        </div>
+        <div id="gameOverPopup" class="popup">
+            <div class="popup-content">
+                <h2>Game Over</h2>
+                <p>Your Score: <span id="playerScorePopup">0</span></p>
+                <p>Highest Score: <span id="maxScorePopup">0</span></p>
+                <p id="newHighScoreIndicator" style="display: none;">New Highest Score!</p>
+                <button id="playAgainBtn">Play Again</button>
+            </div>
         </div>
     </div>
     <script src="index.js"></script>
