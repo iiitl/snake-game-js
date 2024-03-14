@@ -32,7 +32,7 @@ function main(ctime) {
 function isCollide(snake) {
     // return false;
     //if you into yourself
-    
+
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
@@ -62,9 +62,23 @@ function gameEngine() {
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
-        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        let xx = 2 + Math.round(a + (b - a) * Math.random());
+        let yy = Math.round(a + (b - a) * Math.random());
+        while (checkFoodOnSnake(xx, yy)) {
+            xx = 2 + Math.round(a + (b - a) * Math.random());
+            yy = Math.round(a + (b - a) * Math.random());
+        }
+        food = { x: xx, y: yy }
     }
-
+    function checkFoodOnSnake(x, y) {
+        for (let i = 0; i < snakeArr.length; i++) {
+            if (snakeArr[i].x === x && snakeArr[i].y === y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     //Moving the snake
     // console.log("-----")
     // console.log(snakeArr.l)
