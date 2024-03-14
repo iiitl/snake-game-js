@@ -1,115 +1,122 @@
-let board = document.getElementById('board')
-let scoreCont = document.getElementById('score')
-let maxScoreCont = document.getElementById('maxScoreCont');
-let HeadEle;
-// console.log(HeadEle);
-let inputDir = { x: 0, y: 0 };
+// HTML DOM elements
+let board = document.getElementById('board'); // Reference to the game board
+let scoreCont = document.getElementById('score'); // Reference to the element displaying current score
+let maxScoreCont = document.getElementById('maxScoreCont'); // Reference to the element displaying maximum score
+let inputDir = { x: 0, y: 0 }; // Direction of snake movement
 
-const foodSound = new Audio('music/food.mp3');
-const gameOverSound = new Audio('music/gameOver.mp3');
-const moveSound = new Audio('music/move.mp3');
-const musicSound = new Audio('music/music.mp3');
-let speed = 5;
-let lastPaintTime = 0;
-let snakeArr = [
-    { x: 13, y: 15 }
-]
-let food = {
-    x: 6, y: 7
-};
+// Audio elements
+const foodSound = new Audio('music/food.mp3'); // Sound when snake eats food
+const gameOverSound = new Audio('music/gameOver.mp3'); // Sound when game ends
+const moveSound = new Audio('music/move.mp3'); // Sound when snake moves
+const musicSound = new Audio('music/music.mp3'); // Background music
 
-// Game Functions
+// Game parameters
+let speed = 5; // Initial speed of the snake
+let lastPaintTime = 0; // Time of last frame
+let snakeArr = [{ x: 13, y: 15 }]; // Initial snake position
+let food = { x: 6, y: 7 }; // Initial food position
+let score = 0; // Initial score
+
+// Function to update and store the maximum score in local storage
+function updateMaxScore(score) {
+    let maxScore = localStorage.getItem('maxScore');
+    if (!maxScore || score > maxScore) {
+        localStorage.setItem('maxScore', score);
+    }
+}
+
+// Function to display the current score and the maximum score on the interface
+function displayScores() {
+    scoreCont.innerText = "Score: " + score;
+    maxScoreCont.innerText = "Max Score: " + localStorage.getItem('maxScore');
+}
+
+// Retrieving the maximum score from local storage or setting it to 0 if not found
+let maxScore = localStorage.getItem('maxScore') || 0;
+displayScores(); // Displaying initial scores
+
+// Main game loop
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
         return;
     }
-    // console.log(ctime);
     lastPaintTime = ctime;
     gameEngine();
-    // console.log(ctime);
 }
+
+// Function to check collision
 function isCollide(snake) {
-    // return false;
-    //if you into yourself
-    
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
 }
+
+// Function to end the game
+function endGame() {
+    gameOverSound.play();
+    musicSound.pause();
+    inputDir = { x: 0, y: 0 };
+    updateMaxScore(score); // Update maximum score
+    alert("Game over. Press any key to play again");
+    score = 0; // Reset score
+    displayScores(); // Display scores
+    snakeArr = [{ x: 13, y: 15 }]; // Reset snake position
+}
+
+// Game engine
 function gameEngine() {
-    //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
-        gameOverSound.play();
-        musicSound.pause();
-        inputDir = { x: 0, y: 0 };
-        alert("Game over. Press any key to play again");
-        snakeArr = [{ x: 13, y: 15 }];
-        // musicSound.play();
+        endGame();
+        return;
     }
 
-    //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
-        // console.log("food")
         foodSound.play();
-
+        score++; // Increment score when snake eats food
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
-        // console.log(snakeArr)
         let a = 2;
         let b = 16;
-        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
     }
 
-    //Moving the snake
-    // console.log("-----")
-    // console.log(snakeArr.l)
     for (let i = snakeArr.length - 2; i >= 0; i--) {
-        // const element = array[i];
-        // console.log("hello");
         snakeArr[i + 1] = { ...snakeArr[i] };
-        // console.log(snakeArr[i + 1].x);
-
     }
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
 
-    //part2: display the snake and food
-    //display the snake
+    // Displaying the snake and food
     board.innerHTML = "";
     snakeArr.forEach((e, index) => {
-        snakeElement = document.createElement('div');
+        let snakeElement = document.createElement('div');
         snakeElement.style.gridRowStart = e.y;
         snakeElement.style.gridColumnStart = e.x;
         if (index === 0) {
-            eyes = document.createElement('div');
+            let eyes = document.createElement('div');
             eyes.classList.add('eyes');
-            eyes2 = document.createElement('div');
+            let eyes2 = document.createElement('div');
             eyes2.classList.add('eyes');
             snakeElement.classList.add('head');
-            // HeadEle = document.querySelectorAll('.head');
-            // console.log(e.x, e.y, typeof e.x, typeof e.y)
             if (inputDir.x === 0 && inputDir.y === -1) {
                 snakeElement.style.setProperty('--top', '15%');
                 snakeElement.style.setProperty('--bottom', '75%');
                 snakeElement.style.setProperty('--left', '2%');
                 snakeElement.style.setProperty('--right', '2%');
                 snakeElement.style.setProperty('--direction', 'row');
-            }
-            else if (inputDir.x === 0 && inputDir.y === 1) {
+            } else if (inputDir.x === 0 && inputDir.y === 1) {
                 snakeElement.style.setProperty('--top', '75%');
                 snakeElement.style.setProperty('--bottom', '15%');
                 snakeElement.style.setProperty('--left', '2%');
                 snakeElement.style.setProperty('--right', '2%');
                 snakeElement.style.setProperty('--direction', 'row');
-            }
-            else if (inputDir.x === -1 && inputDir.y === 0) {
+            } else if (inputDir.x === -1 && inputDir.y === 0) {
                 snakeElement.style.setProperty('--top', '2%');
                 snakeElement.style.setProperty('--bottom', '2%');
                 snakeElement.style.setProperty('--left', '15%');
                 snakeElement.style.setProperty('--right', '75%');
                 snakeElement.style.setProperty('--direction', 'column');
-            }
-            else if (inputDir.x === 1 && inputDir.y === 0) {
+            } else if (inputDir.x === 1 && inputDir.y === 0) {
                 snakeElement.style.setProperty('--top', '2%');
                 snakeElement.style.setProperty('--bottom', '2%');
                 snakeElement.style.setProperty('--left', '75%');
@@ -119,52 +126,39 @@ function gameEngine() {
             board.appendChild(snakeElement);
             snakeElement.appendChild(eyes);
             snakeElement.appendChild(eyes2);
-        }
-        else {
+        } else {
             snakeElement.classList.add('snake');
-            board.appendChild(snakeElement)
+            board.appendChild(snakeElement);
         }
-    })
+    });
 
-    //part2: display the snake
-
-    foodElement = document.createElement('div');
+    let foodElement = document.createElement('div');
     foodElement.style.gridRowStart = food.y;
     foodElement.style.gridColumnStart = food.x;
     foodElement.classList.add('food');
     board.appendChild(foodElement);
 
+    displayScores(); // Update and display scores
 }
 
-
-
-
-
-
-
-
-
-
-//Main logic starts here
+// Start the game loop
 window.requestAnimationFrame(main);
+
+// Event listener for keyboard input
 window.addEventListener('keydown', e => {
-    // inputDir = { x: 0, y: 1 } //start the game
     moveSound.play();
     switch (e.key) {
         case "ArrowUp":
             inputDir.x = 0;
             inputDir.y = -1;
-
             break;
         case "ArrowDown":
             inputDir.x = 0;
             inputDir.y = 1;
-
             break;
         case "ArrowLeft":
             inputDir.x = -1;
             inputDir.y = 0;
-
             break;
         case "ArrowRight":
             inputDir.x = 1;
@@ -174,4 +168,3 @@ window.addEventListener('keydown', e => {
             break;
     }
 });
-
