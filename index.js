@@ -3,8 +3,6 @@ let scoreCont = document.getElementById('score');
 let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
 let inputDir = { x: 0, y: 0 };
-let score = 0;
-let highestScore = localStorage.getItem('highestScore') || 0;
 
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
@@ -15,14 +13,7 @@ let lastPaintTime = 0;
 let snakeArr = [{ x: 13, y: 15 }];
 let food = { x: 6, y: 7 };
 
-const convertDate = (inputDate) => {
-    const date = new Date(inputDate);
-    const day = date.getUTCDate().toString().padStart(2, "0");
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
-    const year = date.getUTCFullYear().toString();
-    return day + "/" + month + "/" + year;
-};
-
+// Main game loop
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
@@ -32,12 +23,14 @@ function main(ctime) {
     gameEngine();
 }
 
+// Check collision with walls or self
 function isCollide(snake) {
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
 }
 
+// Game engine logic
 function gameEngine() {
     if (isCollide(snakeArr)) {
         gameOverSound.play();
@@ -53,12 +46,7 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
-        score++;
-        if (score > highestScore) {
-            highestScore = score;
-            localStorage.setItem('highestScore', highestScore);
-        }
-        updateScoreDisplay();
+        increaseSpeed(); // Increase speed when food is consumed
     }
 
     for (let i = snakeArr.length - 2; i >= 0; i--) {
@@ -112,7 +100,7 @@ function gameEngine() {
         }
         else {
             snakeElement.classList.add('snake');
-            board.appendChild(snakeElement)
+            board.appendChild(snakeElement);
         }
     })
 
@@ -123,7 +111,20 @@ function gameEngine() {
     board.appendChild(foodElement);
 }
 
+// Increase speed function
+function increaseSpeed() {
+    speed += 0.1; // Increase speed by 0.1 units
+}
+
+// Reset speed function
+function resetSpeed() {
+    speed = 5; // Reset speed to initial value
+}
+
+// Initial call to main function
 window.requestAnimationFrame(main);
+
+// Event listener for keyboard input
 window.addEventListener('keydown', e => {
     moveSound.play();
     switch (e.key) {
@@ -147,8 +148,3 @@ window.addEventListener('keydown', e => {
             break;
     }
 });
-
-const updateScoreDisplay = () => {
-    scoreCont.textContent = `Score: ${score}`;
-    maxScoreCont.textContent = `Highest Score: ${highestScore}`;
-};
