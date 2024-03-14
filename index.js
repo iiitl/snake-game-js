@@ -2,6 +2,7 @@ let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
+let popUp=document.getElementById('congo');
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
 
@@ -34,20 +35,81 @@ function isCollide(snake) {
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
+
+        let x=scoreCont.innerText;
+        let scorex=x.split(':');
+        scorex=parseInt(scorex[1].trim());
+
+
+        let y=maxScoreCont.innerText;
+        let scorey=y.split(':');
+        scorey=parseInt(scorey[1].trim());
+
+     
+        if(scorex>scorey){
+
+            
+
+          
+            document.getElementById('highScore').innerHTML=scorex;
+            
+            popUp.style.display='block';
+            popUp.style.display = 'flex';
+            popUp.style.flexDirection = 'column';
+            popUp.style.justifyContent = 'space-evenly'; // Note: Corrected the property name
+            popUp.style.alignItems = 'center';
+          
+        }
+       
+
+
+
         return true;
     }
+
+   
+
 }
+
+//------------------------------------------
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
+
+        let x=scoreCont.innerText;
+        let scorex=x.split(':');
+        scorex=parseInt(scorex[1].trim());
+
+
+        let y=maxScoreCont.innerText;
+        let scorey=y.split(':');
+        scorey=parseInt(scorey[1].trim());
+
+if(scorex<=scorey){
         alert("Game over. Press any key to play again");
+}
         snakeArr = [{ x: 13, y: 15 }];
+
+        //-------press to cont-------------
+
+        if(scorex>=scorey){
+            maxScoreCont.innerText='Max Score: '+scorex;
+            scoreCont.innerText='Score: '+0;
+            setTimeout(() => {
+            popUp.style.display='none';
+            }, 4000);
+        }
+        
+
+        
         // musicSound.play();
     }
 
+
+    //-------------------------------------------------------------------------------------
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
@@ -57,7 +119,13 @@ function gameEngine() {
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
-        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
+        let x=scoreCont.innerText;
+        let score=x.split(':');
+        score=parseInt(score[1].trim())+1;
+
+        scoreCont.innerText='Score: '+score;
+       
     }
 
     //Moving the snake

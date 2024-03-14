@@ -12,6 +12,25 @@
     background-repeat: no-repeat;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+#congo{
+    position: absolute;
+    height: 400px;
+    width: 600px;
+    background-color: orange;
+    z-index:100;
+    border-radius: 8%;
+    font-size: 3vw;
+    font-weight: bold;
+    font-family: cursive;  
+    
+    /* display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+    flex-direction: column; */
+
+    display: none;
 }
 #score{
     position: absolute;
