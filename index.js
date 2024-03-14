@@ -36,6 +36,18 @@ function isCollide(snake) {
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
+    
+}
+function restoreSpeedToInitialValue(initialValue, speed){
+    speed = initialValue;
+    return speed;
+}
+function increaseSpeedByNunits(speed, n){
+    speed += n;
+    speed = speed.toFixed(1);
+    speed = parseFloat(speed);
+    // alert(`Current Speed is ${speed}`);
+    return speed;
 }
 function gameEngine() {
     //part1: updating the snake array and food
@@ -44,15 +56,17 @@ function gameEngine() {
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
+        speed = restoreSpeedToInitialValue(5, speed);
         snakeArr = [{ x: 13, y: 15 }];
         // musicSound.play();
     }
+
 
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
-
+        speed = increaseSpeedByNunits(0.1, speed);
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
