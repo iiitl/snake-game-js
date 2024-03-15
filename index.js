@@ -4,6 +4,7 @@ let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
+let initialdirection = {};
 
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
@@ -29,9 +30,29 @@ function main(ctime) {
     gameEngine();
     // console.log(ctime);
 }
+
+
+function isDirectionReversed(){
+    if(snakeArr.length > 1){
+        if(initialdirection.x === -(inputDir.x) || initialdirection.y === -(inputDir.y)){
+            return true;
+        }
+    }
+}
+function collideswithitself(){
+    for(let i = 1; i < snakeArr.length; i++){
+        if (snakeArr[0].x === snakeArr[i].x && snakeArr[0].y === snakeArr[i].y) {
+            return true;
+        }
+    }
+}
 function isCollide(snake) {
     // return false;
     //if you into yourself
+    
+    if(isDirectionReversed() == true || collideswithitself() === true){
+        return true;
+    }
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
@@ -152,21 +173,29 @@ window.addEventListener('keydown', e => {
     moveSound.play();
     switch (e.key) {
         case "ArrowUp":
+            initialdirection.x = inputDir.x;
+            initialdirection.y = inputDir.y;
             inputDir.x = 0;
             inputDir.y = -1;
 
             break;
         case "ArrowDown":
+            initialdirection.x = inputDir.x;
+            initialdirection.y = inputDir.y;
             inputDir.x = 0;
             inputDir.y = 1;
 
             break;
         case "ArrowLeft":
+            initialdirection.x = inputDir.x;
+            initialdirection.y = inputDir.y;
             inputDir.x = -1;
             inputDir.y = 0;
 
             break;
         case "ArrowRight":
+            initialdirection.x = inputDir.x;
+            initialdirection.y = inputDir.y;
             inputDir.x = 1;
             inputDir.y = 0;
             break;
