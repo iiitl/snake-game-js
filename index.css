@@ -24,7 +24,7 @@
 }
 #maxScoreCont{
     position: absolute;
-    top: 70px;
+    top: 80px;
     right: 5vw;
     font-size: 1.5vw;
     font-weight: bold;
@@ -80,4 +80,38 @@
     border-radius: 50%;
     margin: auto;
     /* border-radius: 50%; */
+}
+
+.arrowButton{
+    display: none;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+}
+.arrowButton button{
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
+    background: linear-gradient(rgb(170,236,170),rgb(236,236,167));
+    border: 2px solid black;
+    font-size: 1.5vw;
+    font-weight: bold;
+    font-family: cursive;
+    cursor: pointer;
+}
+
+@media (max-width: 1240px) {
+    .arrowButton {
+        display: flex;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+    #score{
+        font-size: 4vh;
+    }
+    #maxScoreCont{
+        font-size: 2vh;
+    }
 }

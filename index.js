@@ -136,6 +136,41 @@ function gameEngine() {
         }
     })
 
+    function handleDirection(dir) {
+        moveSound.play();
+        switch (dir) {
+            case "up":
+                inputDir.x = 0;
+                inputDir.y = -1;
+                break;
+            case "down":
+                inputDir.x = 0;
+                inputDir.y = 1;
+                break;
+            case "left":
+                inputDir.x = -1;
+                inputDir.y = 0;
+                break;
+            case "right":
+                inputDir.x = 1;
+                inputDir.y = 0;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    // Create on-screen buttons for mobile controls
+    const upButton = document.getElementById('upButton');
+    const downButton = document.getElementById('downButton');
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+    
+    upButton.addEventListener('click', () => handleDirection("up"));
+    downButton.addEventListener('click', () => handleDirection("down"));
+    leftButton.addEventListener('click', () => handleDirection("left"));
+    rightButton.addEventListener('click', () => handleDirection("right"));
+
     //part2: display the snake
 
     foodElement = document.createElement('div');
