@@ -1,7 +1,10 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+let popup = document.getElementById('popup');
+let maxScore = 0; 
 let HeadEle;
+let highScoreAchieved = false;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
 
@@ -29,6 +32,30 @@ function main(ctime) {
     gameEngine();
     // console.log(ctime);
 }
+
+//updating highscores
+function updateHighScore(score) {
+    if (score > maxScore) {
+        maxScore = score;
+        maxScoreCont.innerText = `Max Score: ${maxScore}`;
+        highScoreAchieved = true; // Set flag if high score achieved
+        // showCongratsPopup();
+    }
+}
+
+//pop for congratulations
+function showCongratsPopup() {
+    if (highScoreAchieved) {
+        popup.style.display = 'block';
+    }
+}
+
+//to close the pop
+function closePopup() {
+    popup.style.display = 'none';
+    alert("Game over. Press any key to play again");
+}
+
 function isCollide(snake) {
     // return false;
     //if you into yourself
@@ -40,18 +67,40 @@ function isCollide(snake) {
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
+        
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        alert("Game over. Press any key to play again");
+        
+        // Check if high score is achieved and show congratulatory pop-up
+        if (highScoreAchieved) {
+            showCongratsPopup();
+        }
+        else{
+            alert("Game over. Press any key to play again");
+        }
+        // alert("Game over. Press any key to play again");
+        
+
         snakeArr = [{ x: 13, y: 15 }];
         // musicSound.play();
+        scoreCont.innerText = "Score: 0";
+        //reseting the highscoreachieved
+        highScoreAchieved = false;
+        
+        
     }
+    
 
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
+        // Increment score when food is eaten
+        let currentScore = parseInt(scoreCont.innerText.split(": ")[1]);
+        scoreCont.innerText = `Score: ${currentScore + 1}`;
+        // Update high score
+        updateHighScore(currentScore + 1);
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
