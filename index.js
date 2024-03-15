@@ -175,3 +175,30 @@ window.addEventListener('keydown', e => {
     }
 });
 
+// controls buttons for the games --->
+
+const btnUp = document.querySelector('#arUp');
+const btnDown = document.querySelector('#arDown');
+const btnLeft = document.querySelector('#arLeft');
+const btnRight = document.querySelector('#arRight');
+
+
+
+btnUp.addEventListener("click", () => {
+  inputDir.x = 0;
+  inputDir.y = -1;
+});
+
+btnDown.addEventListener("click", () => {
+  inputDir.x = 0;
+  inputDir.y = 1;
+});
+
+btnLeft.addEventListener("click", () => {
+  inputDir.x = -1;
+  inputDir.y = 0;
+});
+btnRight.addEventListener("click", () => {
+  inputDir.x = 1;
+  inputDir.y = 0;
+});
