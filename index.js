@@ -8,6 +8,51 @@ let inputDir = { x: 0, y: 0 };
 const highestScore = localStorage.getItem('highestScore') ? localStorage.getItem('highestScore') : 0;
 maxScoreCont.innerHTML = `Max Score: ${highestScore}`;
 
+
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0;
+
+board.addEventListener('touchstart', (event) => {
+    touchstartX = event.changedTouches[0].screenX;
+    touchstartY = event.changedTouches[0].screenY;
+});
+
+board.addEventListener('touchend', (event) => {
+    touchendX = event.changedTouches[0].screenX;
+    touchendY = event.changedTouches[0].screenY;
+    handleGesture();
+});
+
+function handleGesture() {
+    const distX = touchendX - touchstartX;
+    const distY = touchendY - touchstartY;
+    if (Math.abs(distX) > Math.abs(distY)) {
+        if (distX > 0) {
+            handleDirection("right");
+        } else {
+            handleDirection("left");
+        }
+    } else {
+        if (distY > 0) {
+            handleDirection("down");
+        } else {
+            handleDirection("up");
+        }
+    }
+}
+
+function main(ctime) {
+    window.requestAnimationFrame(main);
+    if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
+        return;
+    }
+    lastPaintTime = ctime;
+    gameEngine();
+}
+
+
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
 const moveSound = new Audio('music/move.mp3');
@@ -219,4 +264,29 @@ window.addEventListener('keydown', e => {
             break;
     }
 });
+
+//touch dir feature for touch screen
+function handleDirection(dir) {
+    moveSound.play();
+    switch (dir) {
+        case "up":
+            inputDir.x = 0;
+            inputDir.y = -1;
+            break;
+        case "down":
+            inputDir.x = 0;
+            inputDir.y = 1;
+            break;
+        case "left":
+            inputDir.x = -1;
+            inputDir.y = 0;
+            break;
+        case "right":
+            inputDir.x = 1;
+            inputDir.y = 0;
+            break;
+        default:
+            break;
+    }
+}
 
