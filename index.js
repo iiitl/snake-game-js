@@ -34,6 +34,7 @@ function isCollide(snake) {
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
+        speed = 5;    // to reset the speed back to 5 when it collides
         return true;
     }
 }
@@ -52,6 +53,8 @@ function gameEngine() {
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
+        speed +=0.1;   // increase the speed by 0.1 every time it eates the food
+        // console.log(speed);
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
