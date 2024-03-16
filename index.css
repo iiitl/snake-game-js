@@ -81,22 +81,33 @@
     margin: auto;
     /* border-radius: 50%; */
 }
-.popup{
-    border: 4px solid white;
-    border-radius: 30px;
-    width:40vw;
-    height: 30vh;
-
-    position: absolute;
-    margin-top: 8px;
-    font-size: 5vw;
-    font-weight: bolder;
-    font-family: sans-serif;
-    background-color: #31363F;
-    color: white;
-    display: none;
+.controls{
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: #222831;
+    margin-top: -30%;
+    margin-left: 5%;
+    height: 10vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
 }
-.popup p{
-    margin-left: 15%;
-    margin-top: 18%;
+.controls button{
+   color: white;
+   background-color: rgb(37, 71, 246);
+   height: 5vh;
+   width: 6vw;
+   border: 3px solid white;
+   border-radius: 30px;
+}
+.controls .button :hover{
+   cursor: pointer;
+}
+.controls select{
+    height: 5vh;
+    border: 3px solid black;
+    border-radius: 20px;
 }
