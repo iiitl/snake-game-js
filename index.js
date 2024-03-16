@@ -37,6 +37,14 @@ function isCollide(snake) {
         return true;
     }
 }
+function restoreSpeed(initVal, speed){
+    speed = initVal;
+    return speed;
+}
+function increaseSpeed(speed, n){
+    speed += n;
+    return parseFloat(speed.toFixed(1));
+}
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
@@ -44,6 +52,7 @@ function gameEngine() {
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
+        speed = restoreSpeed(5, speed);
         snakeArr = [{ x: 13, y: 15 }];
         // musicSound.play();
     }
@@ -52,7 +61,7 @@ function gameEngine() {
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
-
+        speed = increaseSpeed(0.3, speed);
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
