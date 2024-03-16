@@ -1,6 +1,8 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+let score = 0;
+let maxscore = 0;
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -44,6 +46,8 @@ function gameEngine() {
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
+        score = 0;
+        scoreCont.innerHTML = "Score: " + score;
         snakeArr = [{ x: 13, y: 15 }];
         // musicSound.play();
     }
@@ -57,6 +61,13 @@ function gameEngine() {
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
+        score++;
+        if(maxscore<score){
+            maxscore = score;
+        }
+        scoreCont.innerHTML = "Score: " + score;
+        maxScoreCont.innerHTML = "Max Score: " + maxscore;
+
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
     }
 
