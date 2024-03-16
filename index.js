@@ -53,6 +53,7 @@ function gameEngine() {
         }
         snakeArr = [{ x: 13, y: 15 }];
         score = 0; // Reset score
+        speed = 5;
         scoreCont.textContent = `Score: ${score}`;
         // musicSound.play();
     }
@@ -62,6 +63,7 @@ function gameEngine() {
         // console.log("food")
         foodSound.play();
         score++;
+        speed=speed+0.1;
         scoreCont.textContent = `Score: ${score}`;
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
