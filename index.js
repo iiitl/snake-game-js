@@ -58,7 +58,11 @@ function endGame() {
     musicSound.pause();
     inputDir = { x: 0, y: 0 };
     updateMaxScore(score); // Update maximum score
-    alert("Game over. Press any key to play again");
+    if (score > maxScore) {
+        alert("Congratulations🎉! You have achieved a new high score! Press any key to play again");
+    } else {
+        alert("Game over. Press any key to play again");
+    }
     score = 0; // Reset score
     displayScores(); // Display scores
     snakeArr = [{ x: 13, y: 15 }]; // Reset snake position
