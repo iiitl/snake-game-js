@@ -51,6 +51,25 @@ function isCollide(snake) {
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
+    return snake.slice(1).some(segment => segment.x === snake[0].x && segment.y === snake[0].y);
+}
+
+// Function to generate food at a random position avoiding snake's body
+function generateFood() {
+    let newFood;
+    do {
+        newFood = {
+            x: Math.round(1 + (18 - 1) * Math.random()), // Generate random x coordinate
+            y: Math.round(1 + (18 - 1) * Math.random())  // Generate random y coordinate
+        };
+    } while (isFoodOnSnake(newFood)); // Check if food overlaps with snake's body
+
+    food = newFood; // Set food to the new position
+}
+
+// Function to check if food overlaps with snake's body
+function isFoodOnSnake(pos) {
+    return snakeArr.some(segment => segment.x === pos.x && segment.y === pos.y);
 }
 
 // Function to end the game
@@ -80,9 +99,7 @@ function gameEngine() {
         foodSound.play();
         score++; // Increment score when snake eats food
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
-        let a = 2;
-        let b = 16;
-        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
+        generateFood(); // Generate new food position
     }
 
     for (let i = snakeArr.length - 2; i >= 0; i--) {
