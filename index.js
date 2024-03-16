@@ -1,6 +1,6 @@
 let board = document.getElementById('board')
-let scoreCont = document.getElementById('score')
-let maxScoreCont = document.getElementById('maxScoreCont');
+let scoreCont = document.querySelector('.score')
+let maxScoreCont = document.querySelector('.maxScoreCont');
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -45,6 +45,8 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
+        scoreCont.innerHTML=0;
+        maxScoreCont=maxScoreCont;
         // musicSound.play();
     }
 
@@ -58,7 +60,19 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        let i=0;
+        i+=1;
+        scoreCont.innerHTML=(Number(scoreCont.innerHTML)+i);
+
+
+        maxScoreCont.innerHTML=scoreCont.innerHTML;
+   
+
+       
+
     }
+    
+     
 
     //Moving the snake
     // console.log("-----")
@@ -125,7 +139,7 @@ function gameEngine() {
             board.appendChild(snakeElement)
         }
     })
-
+   
     //part2: display the snake
 
     foodElement = document.createElement('div');
