@@ -34,6 +34,7 @@ function isCollide(snake) {
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
+        speed = 5;
         return true;
     }
 }
@@ -58,6 +59,8 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        //
+        speed+=0.1;
     }
 
     //Moving the snake
