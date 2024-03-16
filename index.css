@@ -81,3 +81,44 @@
     margin: auto;
     /* border-radius: 50%; */
 }
+
+/* index.css */
+
+.game-over-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.game-over-popup h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+.game-over-popup p {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #555;
+}
+
+.game-over-popup button {
+    padding: 10px 30px;
+    background-color: #ff5f5f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.game-over-popup button:hover {
+    background-color: #ff3f3f;
+}

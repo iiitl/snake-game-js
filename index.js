@@ -45,7 +45,25 @@ function gameEngine() {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        alert("Game over. Press any key to play again");
+        const popup = document.createElement('div');
+        popup.classList.add('game-over-popup');
+        if(score>maxScore){
+            popup.innerHTML = `
+            <h2>Congratulations! High Score</h2>
+            <p>Your Score: ${score}</p>
+            <p>Old High Score: ${maxScore}</p>
+            <button id="play-again-btn">Play Again</button>
+        `;
+        }else{
+            popup.innerHTML = `
+            <h2>Game Over!</h2>
+            <p>Your Score: ${score}</p>
+            <p>Max Score: ${maxScore}</p>
+            <button id="play-again-btn">Play Again</button>
+        `;
+        }
+        
+        document.body.appendChild(popup);
         if (score > maxScore) {
             maxScore = score;
             localStorage.setItem('maxScore', maxScore);
@@ -53,9 +71,14 @@ function gameEngine() {
         }
         snakeArr = [{ x: 13, y: 15 }];
         score = 0; // Reset score
-        speed = 5;
+        // speed = 5;
         scoreCont.textContent = `Score: ${score}`;
         // musicSound.play();
+        const playAgainBtn = document.getElementById('play-again-btn');
+        playAgainBtn.addEventListener('click', () => {
+            document.body.removeChild(popup);
+            window.requestAnimationFrame(main);
+        });
     }
 
     //IF you have eaten the food, increment the score and regenerate the food
@@ -63,7 +86,7 @@ function gameEngine() {
         // console.log("food")
         foodSound.play();
         score++;
-        speed=speed+0.1;
+        // speed=speed+0.1;
         scoreCont.textContent = `Score: ${score}`;
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
