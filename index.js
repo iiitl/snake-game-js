@@ -34,6 +34,7 @@ function isCollide(snake) {
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
+        speed = 5;
         return true;
     }
 }
