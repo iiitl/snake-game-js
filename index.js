@@ -1,10 +1,9 @@
 let board = document.getElementById('board')
-let body=document.querySelector("body");
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
-var pause=document.querySelector("#pause");
-var mute=document.querySelector("#mute");
-var screen=document.querySelector('select')
+var newGame=document.querySelector(".new_game");
+var popup=document.querySelector(".popup");
+
 
 let HeadEle;
 // console.log(HeadEle);
@@ -22,57 +21,6 @@ let snakeArr = [
 let food = {
     x: 6, y: 7
 };
-var i=0;
-pause.addEventListener("click",()=>{
-
-if(i===0){
-    speed=0;
-    pause.innerHTML="Resume"
-    i=1;
-}
-else{
-    speed=5;
-    pause.innerHTML="Pause";
-    i=0;
-}
-   
-
-    
-})
-screen.addEventListener("change",function(){
-    
-    if(screen.value==="fullScreen-mode")
-    body.requestFullscreen();
-else{
-    document.exitFullscreen();
-}
-   
-
-})
-
-var k=0;
-mute.addEventListener("click",function(){
-    if(k==0){
-        moveSound.muted=true;
-        foodSound.muted=true;
-        musicSound.muted=true;
-        gameOverSound.muted=true;
-        mute.innerHTML="sound";
-
-        k=1;
-
-    }
-    else{
-        moveSound.muted=false;
-        foodSound.muted=false;
-        musicSound.muted=false;
-        gameOverSound.muted=false;
-        mute.innerHTML="mute";
-        k=0;
-
-    }
-    
-})
 
 
 // Game Functions
@@ -91,19 +39,25 @@ function isCollide(snake) {
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
-        return true;
+        return true ;
     }
 }
+newGame.addEventListener("click",function(){
+    snakeArr = [{ x: 13, y: 15 }]; 
+    popup.style.display="none"; 
+})
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        alert("Game over. Press any key to play again");
+        popup.style.display="block";
         snakeArr = [{ x: 13, y: 15 }];
-        scoreCont.innerHTML=0;
-        maxScoreCont=maxScoreCont;
+        
+       
+       
+        
         // musicSound.play();
     }
 
@@ -117,21 +71,17 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
-        let i=0;
-        i+=1;
+       
         
-        mute.addEventListener("click",()=>{
-            // gameOverSound.pause();
-            // foodSound.pause();
-            // moveSound=0;
-            // musicSound.pause();
-        
-        })
+       
    
 
        
 
     }
+    
+        
+  
    
     
     
@@ -149,6 +99,8 @@ function gameEngine() {
     }
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
+
+  
 
     //part2: display the snake and food
     //display the snake
@@ -202,6 +154,7 @@ function gameEngine() {
             board.appendChild(snakeElement)
         }
     })
+   
    
     //part2: display the snake
 
