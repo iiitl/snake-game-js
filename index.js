@@ -11,14 +11,12 @@ const moveSound = new Audio('music/move.mp3');
 const musicSound = new Audio('music/music.mp3');
 let speed = 5;
 let lastPaintTime = 0;
-let snakeArr = [
-    { x: 13, y: 15 }
-]
-let food = {
-    x: 6, y: 7
-};
-
+let snakeArr = [{ x: 13, y: 15 }];
+let food = { x: 6, y: 7};
+let score = 0; // Initialize score variable
 // Game Functions
+let maxScore = localStorage.getItem('maxScore') || 0;
+maxScoreCont.textContent = "Highest Score: " + maxScore;
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
@@ -45,14 +43,21 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
-        // musicSound.play();
+        score=0;
+        scoreCont.textContent = score; 
     }
 
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
-
+       score+=1;
+       if (score > maxScore) {
+        maxScore = score;
+        localStorage.setItem('maxScore', maxScore);
+        maxScoreCont.textContent ="Max Score=" +maxScore;
+    }
+       scoreCont.textContent = "Score: " + score;
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
@@ -134,16 +139,7 @@ function gameEngine() {
     foodElement.classList.add('food');
     board.appendChild(foodElement);
 
-}
-
-
-
-
-
-
-
-
-
+};
 
 //Main logic starts here
 window.requestAnimationFrame(main);
