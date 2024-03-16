@@ -82,11 +82,13 @@
     /* border-radius: 50%; */
 }
 .controls {
-    margin-top: 20px;
+    margin-top: -250px;
+    margin-left: 20px;
+    
 }
 
 .controls button {
-    margin-right: 10px;
+    margin-right: 20px;
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
