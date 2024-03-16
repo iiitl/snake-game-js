@@ -1,6 +1,7 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+let popup=document.querySelector(".popup");
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -43,7 +44,7 @@ function gameEngine() {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        alert("Game over. Press any key to play again");
+        popup.style.display="block";
         snakeArr = [{ x: 13, y: 15 }];
         scoreCont.innerHTML=0;
         maxScoreCont=maxScoreCont;
@@ -63,7 +64,7 @@ function gameEngine() {
         let i=0;
         i+=1;
         
-        speed=speed+i;
+       
    
 
        
