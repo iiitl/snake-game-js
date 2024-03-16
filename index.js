@@ -1,8 +1,11 @@
 let board = document.getElementById('board')
+let body=document.querySelector("body");
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
-var newGame=document.querySelector(".new_game");
-var popup=document.querySelector(".popup");
+var pause=document.querySelector("#pause");
+var mute=document.querySelector("#mute");
+var screen=document.querySelector('select')
+
 
 
 let HeadEle;
@@ -21,6 +24,60 @@ let snakeArr = [
 let food = {
     x: 6, y: 7
 };
+var i=0;
+//pauses the game
+pause.addEventListener("click",()=>{
+
+if(i===0){
+    speed=0;
+    pause.innerHTML="Resume"
+    i=1;
+}
+else{
+    speed=5;
+    pause.innerHTML="Pause";
+    i=0;
+}
+
+
+
+})
+//full screen and windowed screen feature
+screen.addEventListener("change",function(){
+
+    if(screen.value==="fullScreen-mode")
+    body.requestFullscreen();
+else{
+    document.exitFullscreen();
+}
+
+
+})
+//mute function
+var k=0;
+
+mute.addEventListener("click",function(){
+    if(k==0){
+        moveSound.muted=true;
+        foodSound.muted=true;
+        musicSound.muted=true;
+        gameOverSound.muted=true;
+        mute.innerHTML="sound";
+
+        k=1;
+
+    }
+    else{
+        moveSound.muted=false;
+        foodSound.muted=false;
+        musicSound.muted=false;
+        gameOverSound.muted=false;
+        mute.innerHTML="mute";
+        k=0;
+
+    }
+
+})
 
 
 // Game Functions
@@ -42,17 +99,14 @@ function isCollide(snake) {
         return true ;
     }
 }
-newGame.addEventListener("click",function(){
-    snakeArr = [{ x: 13, y: 15 }]; 
-    popup.style.display="none"; 
-})
+
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        popup.style.display="block";
+        alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
         
        
