@@ -1,6 +1,6 @@
 let board = document.getElementById('board')
-let scoreCont = document.querySelector('.score')
-let maxScoreCont = document.querySelector('.maxScoreCont');
+let scoreCont = document.getElementById('score')
+let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -62,10 +62,8 @@ function gameEngine() {
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
         let i=0;
         i+=1;
-        scoreCont.innerHTML=(Number(scoreCont.innerHTML)+i);
-
-
-        maxScoreCont.innerHTML=scoreCont.innerHTML;
+        
+        speed=speed+i;
    
 
        
