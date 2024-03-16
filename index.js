@@ -37,6 +37,8 @@ function isCollide(snake) {
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
+   
+    
 }
 function gameEngine() {
     
@@ -65,14 +67,16 @@ function gameEngine() {
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
+        
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
 
-        speed++;
-        console.log(speed);
+        // speed++;
+        // console.log(speed);
     
 
         scoreCont.innerHTML=Number(scoreCont.innerHTML)+1;;
         
+
     }
 
     //Moving the snake
@@ -87,6 +91,21 @@ function gameEngine() {
     }
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
+
+    for (let i = 1; i < snakeArr.length; i++) {
+        if (snakeArr[i].x === snakeArr[0].x && snakeArr[i].y === snakeArr[0].y) {
+            // Snake touches itself
+            gameOverSound.play();
+            musicSound.pause();
+            inputDir = { x: 0, y: 0 };
+            alert("Game over. Press any key to play again");
+            snakeArr = [{ x: 13, y: 15 }];
+            maxScoreCont.innerHTML = Math.max(scoreCont.innerHTML, Number(maxScoreCont.innerHTML));
+            scoreCont.innerHTML = "0";
+            speed = 5; // Reset the speed
+            break;
+        }
+    }
 
     //part2: display the snake and food
     //display the snake
