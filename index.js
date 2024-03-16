@@ -1,6 +1,6 @@
 let board = document.getElementById('board')
-let scoreCont = document.getElementById('score')
-let maxScoreCont = document.getElementById('maxScoreCont');
+let scoreCont = document.querySelector('.scoreCount')
+let maxScoreCont = document.getElementById('maxScore')
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -22,7 +22,7 @@ let food = {
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
-        return;
+        return ;
     }
     // console.log(ctime);
     lastPaintTime = ctime;
@@ -30,6 +30,7 @@ function main(ctime) {
     // console.log(ctime);
 }
 function isCollide(snake) {
+    
     // return false;
     //if you into yourself
     
@@ -38,6 +39,7 @@ function isCollide(snake) {
     }
 }
 function gameEngine() {
+    
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
         gameOverSound.play();
@@ -45,19 +47,29 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
+        maxScoreCont.innerHTML=Math.max(scoreCont.innerHTML,Number(maxScoreCont.innerHTML));
+        scoreCont.innerHTML="0";
+        
         // musicSound.play();
     }
 
     //IF you have eaten the food, increment the score and regenerate the food
-    if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
+    if (snakeArr[0].y === food.y && snakeArr[0].x === food.x)
+     {
         // console.log("food")
         foodSound.play();
+        
+        
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+    
+
+        scoreCont.innerHTML=Number(scoreCont.innerHTML)+1;;
+        
     }
 
     //Moving the snake
@@ -135,6 +147,9 @@ function gameEngine() {
     board.appendChild(foodElement);
 
 }
+
+// Start the game loop
+
 
 
 
