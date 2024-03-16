@@ -17,7 +17,7 @@ let snakeArr = [
 let food = {
     x: 6, y: 7
 };
-
+let maxScore=0;
 // Game Functions
 function main(ctime) {
     window.requestAnimationFrame(main);
@@ -42,6 +42,11 @@ function gameEngine() {
     if (isCollide(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
+        let n=snakeArr.length-1;
+        if(n>maxScore){ maxScore=n;
+            maxScoreCont.innerHTML=n;
+        alert("Congratulations new max score");}
+scoreCont.innerHTML='0';
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
@@ -52,10 +57,11 @@ function gameEngine() {
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
-
+        let n=snakeArr.length;
+scoreCont.innerHTML=n;
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
-        let a = 2;
+        let a = 2
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
     }
