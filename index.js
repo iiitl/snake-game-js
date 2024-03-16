@@ -16,6 +16,7 @@ let lastPaintTime = 0; // Time of last frame
 let snakeArr = [{ x: 13, y: 15 }]; // Initial snake position
 let food = { x: 6, y: 7 }; // Initial food position
 let score = 0; // Initial score
+let animationId; // Variable to store animation frame ID
 
 // Function to update and store the maximum score in local storage
 function updateMaxScore(score) {
@@ -37,7 +38,7 @@ displayScores(); // Displaying initial scores
 
 // Main game loop
 function main(ctime) {
-    window.requestAnimationFrame(main);
+    animationId = window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
         return;
     }
@@ -146,7 +147,7 @@ function gameEngine() {
 }
 
 // Start the game loop
-window.requestAnimationFrame(main);
+main();
 
 // Event listener for keyboard input
 window.addEventListener('keydown', e => {
@@ -172,3 +173,54 @@ window.addEventListener('keydown', e => {
             break;
     }
 });
+
+// Define variables for buttons
+const pauseBtn = document.getElementById('pauseBtn');
+const muteBtn = document.getElementById('muteBtn');
+const fullScreenBtn = document.getElementById('fullScreenBtn');
+
+// Add event listeners for buttons
+pauseBtn.addEventListener('click', togglePause);
+muteBtn.addEventListener('click', toggleMute);
+fullScreenBtn.addEventListener('click', toggleFullScreen);
+
+// Define variables for game state
+let isPaused = false;
+let isMuted = false;
+
+// Function to toggle pause
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        cancelAnimationFrame(animationId); // Stop game loop
+    } else {
+        animationId = requestAnimationFrame(main); // Resume game loop
+    }
+}
+
+// Function to toggle mute
+function toggleMute() {
+    isMuted = !isMuted;
+    if (isMuted) {
+        foodSound.muted = true;
+        gameOverSound.muted = true;
+        moveSound.muted = true;
+        musicSound.muted = true;
+    } else {
+        foodSound.muted = false;
+        gameOverSound.muted = false;
+        moveSound.muted = false;
+        musicSound.muted = false;
+    }
+}
+
+// Function to toggle full screen
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}

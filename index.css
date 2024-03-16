@@ -12,6 +12,24 @@
     background-repeat: no-repeat;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+.buttons {
+    position: absolute;
+    top: 1px;
+    display: flex;
+    gap: 10px;
+    
+}
+.buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(236, 236, 167); /* Similar color shade */
+    color: black;
+    cursor: pointer;
 }
 #score{
     position: absolute;
@@ -20,7 +38,6 @@
     font-size: 3vw;
     font-weight: bold;
     font-family: cursive;
-    
 }
 #maxScoreCont{
     position: absolute;
@@ -50,9 +67,6 @@
     transform: scale(1.02);
     border-radius: 9px;
     display: flex;
-    /* align-items: space-evenly;
-    justify-content: space-evenly; */
-    /* gap: 20px; */
     flex-direction: var(--direction);
     padding-top: var(--top);
     padding-bottom:var(--bottom);
@@ -63,10 +77,8 @@
     background-color: purple;
     border: .25vmin solid white;
     border-radius: 12px;
-    /* z-index: 50; */
 }
 .food{
-    /* background-color: rgb(255, 98, 0); */
     background: linear-gradient(red,purple);
     border: .25vmin solid black;
     border-radius: 8px;
@@ -79,5 +91,4 @@
     z-index: 100;
     border-radius: 50%;
     margin: auto;
-    /* border-radius: 50%; */
 }
