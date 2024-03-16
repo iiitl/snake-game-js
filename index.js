@@ -4,6 +4,8 @@ let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
+let scoresList = [0];
+let scoreCurrent = 0;
 
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
@@ -34,13 +36,16 @@ function isCollide(snake) {
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
-        speed = 5;
+        scoresList.push(scoreCurrent);
         return true;
     }
 }
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
+        maxScoreCont.innerText = "Max Score : " + Math.max(...scoresList);
+        scoreCurrent = 0;
+        scoreCont.innerText = "Score : " + scoreCurrent;
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
@@ -53,7 +58,8 @@ function gameEngine() {
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
-        speed += 0.1;
+        scoreCurrent += 1;
+        scoreCont.innerText = "Score : " + scoreCurrent;
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
