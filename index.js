@@ -1,10 +1,6 @@
 let board = document.getElementById('board')
-let scoreCont = document.getElementById('score')
-let maxScoreCont = document.getElementById('maxScoreCont');
-var newGame=document.querySelector(".new_game");
-var popup=document.querySelector(".popup");
-
-
+let scoreCont = document.querySelector('.scoreCount')
+let maxScoreCont = document.getElementById('maxScore')
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -22,12 +18,11 @@ let food = {
     x: 6, y: 7
 };
 
-
 // Game Functions
 function main(ctime) {
     window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
-        return;
+        return ;
     }
     // console.log(ctime);
     lastPaintTime = ctime;
@@ -35,57 +30,54 @@ function main(ctime) {
     // console.log(ctime);
 }
 function isCollide(snake) {
+    
     // return false;
     //if you into yourself
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
-        return true ;
+        return true;
     }
+   
+    
 }
-newGame.addEventListener("click",function(){
-    snakeArr = [{ x: 13, y: 15 }]; 
-    popup.style.display="none"; 
-})
 function gameEngine() {
+    
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
-        popup.style.display="block";
+        alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
-        
-       
-       
+        maxScoreCont.innerHTML=Math.max(scoreCont.innerHTML,Number(maxScoreCont.innerHTML));
+        scoreCont.innerHTML="0";
         
         // musicSound.play();
     }
 
     //IF you have eaten the food, increment the score and regenerate the food
-    if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
+    if (snakeArr[0].y === food.y && snakeArr[0].x === food.x)
+     {
         // console.log("food")
         foodSound.play();
+        
+        
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
-        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
-       
         
-       
-   
+        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
 
-       
+        // speed++;
+        // console.log(speed);
+    
+
+        scoreCont.innerHTML=Number(scoreCont.innerHTML)+1;;
+        
 
     }
-    
-        
-  
-   
-    
-    
-     
 
     //Moving the snake
     // console.log("-----")
@@ -100,7 +92,20 @@ function gameEngine() {
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
 
-  
+    for (let i = 1; i < snakeArr.length; i++) {
+        if (snakeArr[i].x === snakeArr[0].x && snakeArr[i].y === snakeArr[0].y) {
+            
+            gameOverSound.play();
+            musicSound.pause();
+            inputDir = { x: 0, y: 0 };
+            alert("Game over. Press any key to play again");
+            snakeArr = [{ x: 13, y: 15 }];
+           
+            
+            speed = 5; // Reset the speed
+            break;
+        }
+    }
 
     //part2: display the snake and food
     //display the snake
@@ -154,8 +159,7 @@ function gameEngine() {
             board.appendChild(snakeElement)
         }
     })
-   
-   
+
     //part2: display the snake
 
     foodElement = document.createElement('div');
@@ -165,6 +169,9 @@ function gameEngine() {
     board.appendChild(foodElement);
 
 }
+
+// Start the game loop
+
 
 
 
@@ -204,4 +211,3 @@ window.addEventListener('keydown', e => {
             break;
     }
 });
-
