@@ -1,9 +1,14 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
+let gamePaused = false;
+let isMuted = false;
+let animationId;
+
 
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
@@ -18,16 +23,51 @@ let food = {
     x: 6, y: 7
 };
 
+
+function togglePause() {
+    gamePaused = !gamePaused;
+    if (gamePaused) {
+        cancelAnimationFrame(animationId);
+    } else {
+        animationId = requestAnimationFrame(main);
+    }
+}
+
+
+function toggleMute() {
+    isMuted = !isMuted;
+    if (isMuted) {
+        foodSound.muted = true;
+        gameOverSound.muted = true;
+        moveSound.muted = true;
+        musicSound.muted = true;
+    } else {
+        foodSound.muted = false;
+        gameOverSound.muted = false;
+        moveSound.muted = false;
+        musicSound.muted = false;
+    }
+}
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
+
 // Game Functions
 function main(ctime) {
-    window.requestAnimationFrame(main);
     if ((ctime - lastPaintTime) / 1000 < (1 / speed)) {
+        animationId = requestAnimationFrame(main);
         return;
     }
-    // console.log(ctime);
     lastPaintTime = ctime;
     gameEngine();
-    // console.log(ctime);
+    animationId = requestAnimationFrame(main);
 }
 function isCollide(snake) {
     // return false;
@@ -137,7 +177,9 @@ function gameEngine() {
 }
 
 
-
+document.getElementById('pause').addEventListener('click', togglePause);
+document.getElementById('mute').addEventListener('click', toggleMute);
+document.getElementById('fullscreen').addEventListener('click', toggleFullScreen);
 
 
 
@@ -173,5 +215,5 @@ window.addEventListener('keydown', e => {
         default:
             break;
     }
-});
 
+});
