@@ -1,7 +1,16 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+
+let easy = document.getElementById('Easy');
+let moderate = document.getElementById('Moderate');
+let difficult = document.getElementById('Difficult');
+let mode = "easy";
+easy.classList.add("selected");
+let obstacles = [];
+
 let HeadEle;
+
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
 
@@ -35,8 +44,33 @@ function isCollide(snake) {
     
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
+    } 
+    else if (mode === "moderate" && (snake[0].x == 9 && snake[0].y == 9)){
+        return true;
+    }
+    else if (mode === "difficult" &&
+    (
+        (snake[0].x == 12 && snake[0].y == 12) ||
+        (snake[0].x == 12 && snake[0].y == 6) ||
+        (snake[0].x == 6 && snake[0].y == 6) ||
+        (snake[0].x == 6 && snake[0].y == 12)
+    )
+    ){
+        return true;
     }
 }
+
+// to prevent the overlap of food on obstacles 
+function isOverlapping(obstacles, food){
+    for(let rock in obstacles){
+        if(rock.x === food.x && rock.y === food.y){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
@@ -48,6 +82,8 @@ function gameEngine() {
         // musicSound.play();
     }
 
+
+
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
@@ -55,9 +91,11 @@ function gameEngine() {
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
+        do{
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        } while (isOverlapping(obstacles, food));
     }
 
     //Moving the snake
@@ -72,6 +110,8 @@ function gameEngine() {
     }
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
+
+    
 
     //part2: display the snake and food
     //display the snake
@@ -126,7 +166,9 @@ function gameEngine() {
         }
     })
 
-    //part2: display the snake
+    //part2: display the food
+
+    
 
     foodElement = document.createElement('div');
     foodElement.style.gridRowStart = food.y;
@@ -134,10 +176,67 @@ function gameEngine() {
     foodElement.classList.add('food');
     board.appendChild(foodElement);
 
+    // display the obstacles
+    obstacles.forEach((obstacle) => {
+        let rock = document.createElement("div");
+        rock.classList.add("obstacle");
+        rock.style.gridRowStart = obstacle.x;
+        rock.style.gridColumnStart = obstacle.y;
+
+        board.appendChild(rock);
+        // console.log(obstacle.x, obstacle.y)
+    })
+
 }
 
 
 
+// Implementing the difficulty modes:
+
+easy.addEventListener("click", function() {
+    this.classList.add("selected");
+    moderate.classList.remove("selected");
+    difficult.classList.remove("selected");
+    mode = "easy";
+    implementDifficultyMode(mode);
+    // console.log(mode);
+});
+
+moderate.addEventListener("click", function() {
+    this.classList.add("selected");
+    easy.classList.remove("selected");
+    difficult.classList.remove("selected");
+    mode = "moderate";
+    implementDifficultyMode(mode);
+    // console.log(mode);
+});
+
+difficult.addEventListener("click", function() {
+    this.classList.add("selected");
+    easy.classList.remove("selected");
+    moderate.classList.remove("selected");
+    mode = "difficult";
+    implementDifficultyMode(mode);
+    // console.log(mode);
+});
+
+function implementDifficultyMode(mode){
+    if(mode === "easy"){
+        obstacles = [];
+        easy.classList.add(selected);
+    } else if (mode == "moderate") {
+        obstacles = [{
+            x:9, y:9
+        }];
+    } else if (mode == "difficult"){
+        obstacles = [
+            {x:6, y:12},
+            {x:6, y:6},
+            {x:12, y:6},
+            {x:12, y:12},
+        ];
+    }
+}
 
 
 
