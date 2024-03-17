@@ -45,6 +45,7 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
+        resetSpeed();
         // musicSound.play();
     }
 
@@ -58,6 +59,7 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        increaseSpeed();
     }
 
     //Moving the snake
@@ -136,13 +138,13 @@ function gameEngine() {
 
 }
 
+function increaseSpeed() {
+    speed += 0.1; 
+}
 
-
-
-
-
-
-
+function resetSpeed() {
+    speed = 5;
+}
 
 
 //Main logic starts here
