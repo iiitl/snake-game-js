@@ -1,6 +1,7 @@
 let board = document.getElementById('board')
 let scoreCont = document.getElementById('score')
 let maxScoreCont = document.getElementById('maxScoreCont');
+var max=0;
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
@@ -29,17 +30,20 @@ function main(ctime) {
     gameEngine();
     // console.log(ctime);
 }
+var count=0;
 function isCollide(snake) {
     // return false;
     //if you into yourself
-    
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
 }
+
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
+        document.getElementById("score").innerHTML=0;
+        count=0;
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
@@ -51,8 +55,13 @@ function gameEngine() {
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
-        foodSound.play();
-
+           foodSound.play();
+           count++;
+           if(max<count){
+            max=count;
+            document.getElementById("maxScoreCont").innerHTML=max;
+           }
+           document.getElementById("score").innerHTML=count;
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
         let a = 2;
