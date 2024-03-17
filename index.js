@@ -4,7 +4,10 @@ let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
-
+//
+const maximumScore = localStorage.getItem("maximumScore") ? localStorage.getItem("maximumScore") : 0;
+maxScoreCont.innerHTML = `Max Score: ${maximumScore}`;
+//
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
 const moveSound = new Audio('music/move.mp3');
@@ -40,6 +43,14 @@ function isCollide(snake) {
 function gameEngine() {
     //part1: updating the snake array and food
     if (isCollide(snakeArr)) {
+        //
+        scoreCont.innerHTML = "Score: 0";
+        //
+        if (snakeArr.length - 1 > maximumScore) {
+            localStorage.setItem('maximumScore', snakeArr.length - 1);
+            maxScoreCont.innerHTML = `maximum Score: ${snakeArr.length - 1}`;
+        }
+        //
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
@@ -55,6 +66,9 @@ function gameEngine() {
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         // console.log(snakeArr)
+        //
+        scoreCont.innerHTML = `Score: ${snakeArr.length - 1}`;
+        //
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
