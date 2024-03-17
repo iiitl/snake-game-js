@@ -59,6 +59,12 @@
     padding-left: var(--left);
     padding-right: var(--right);
 }
+
+.hidden {
+    display: none;
+}
+
+
 .snake{
     background-color: purple;
     border: .25vmin solid white;

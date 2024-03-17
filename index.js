@@ -35,23 +35,39 @@ function isCollide(snake) {
         return true;
     }
 }
+function isSelfBite(snake) {
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+            return true; // Snake has bitten itself
+        }
+    }
+    return false; 
+};
+function checkForNewHighScore(score) {
+    const maxScore = parseInt(localStorage.getItem('maxScore')) || 0;
+    if (score > maxScore) {
+        localStorage.setItem('maxScore', score);
+        showCelebrationPopup();
+    }
+}
+
 function gameEngine() {
-    //part1: updating the snake array and food
-    if (isCollide(snakeArr)) {
+    if (isCollide(snakeArr) || isSelfBite(snakeArr)) {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
-        score=0;
-        scoreCont.textContent = score; 
+        score = 0;
+        scoreCont.textContent = score;
+        return;
     }
-
+    
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         // console.log("food")
         foodSound.play();
-       score+=1;
+       score+=50;
        if (score > maxScore) {
         maxScore = score;
         localStorage.setItem('maxScore', maxScore);
@@ -63,6 +79,7 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        checkForNewHighScore(score); 
     }
 
     //Moving the snake
@@ -78,8 +95,7 @@ function gameEngine() {
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
 
-    //part2: display the snake and food
-    //display the snake
+
     board.innerHTML = "";
     snakeArr.forEach((e, index) => {
         snakeElement = document.createElement('div');
@@ -129,7 +145,7 @@ function gameEngine() {
             snakeElement.classList.add('snake');
             board.appendChild(snakeElement)
         }
-    })
+    });
 
     //part2: display the snake
 
@@ -139,8 +155,7 @@ function gameEngine() {
     foodElement.classList.add('food');
     board.appendChild(foodElement);
 
-};
-
+}
 //Main logic starts here
 window.requestAnimationFrame(main);
 window.addEventListener('keydown', e => {
