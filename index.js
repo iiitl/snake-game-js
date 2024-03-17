@@ -60,6 +60,7 @@ function gameEngine() {
         snakeArr = [{ x: 13, y: 15 }];
         score = 0;
         scoreCont.textContent = score;
+        speed = initialSpeed;
         return;
     }
     
@@ -80,6 +81,7 @@ function gameEngine() {
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
         checkForNewHighScore(score); 
+        speed+=0.1;
     }
 
     //Moving the snake
