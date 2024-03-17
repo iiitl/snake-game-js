@@ -17,7 +17,14 @@ let snakeArr = [
 let food = {
     x: 6, y: 7
 };
-
+let snakeHash = [];
+for (let i = 0; i < 19; i++) {
+    snakeHash[i] = [];
+    for (let j = 0; j < 19; j++) {
+        snakeHash[i][j] = false;
+    }
+}
+snakeHash[snakeArr[0].y][snakeArr[0].x] = true;
 // Game Functions
 function main(ctime) {
     window.requestAnimationFrame(main);
@@ -36,6 +43,11 @@ function isCollide(snake) {
     if (snake[0].x > 18 || snake[0].x < 0 || snake[0].y > 18 || snake[0].y < 0) {
         return true;
     }
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            return true;
+        }
+    }
 }
 function gameEngine() {
     //part1: updating the snake array and food
@@ -45,6 +57,12 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
+        for (let i = 0; i < 19; i++) {
+            for (let j = 0; j < 19; j++) {
+                snakeHash[i][j] = false;
+            }
+        }
+        snakeHash[snakeArr[0].y][snakeArr[0].x] = true;
         // musicSound.play();
     }
 
@@ -54,15 +72,27 @@ function gameEngine() {
         foodSound.play();
 
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
+        snakeHash[snakeArr[0].y][snakeArr[0].x] = true;
         // console.log(snakeArr)
         let a = 2;
         let b = 16;
-        food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        //food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        let xx = 2 + Math.round(a + (b - a) * Math.random());
+        let yy = Math.round(a + (b - a) * Math.random());
+        while (checkFoodOnSnake(xx, yy)) {
+            xx = 2 + Math.round(a + (b - a) * Math.random());
+            yy = Math.round(a + (b - a) * Math.random());
+        }
+        food = { x: xx, y: yy }
+    }
+    function checkFoodOnSnake(x, y) {
+        return snakeHash[x][y];
     }
 
     //Moving the snake
     // console.log("-----")
     // console.log(snakeArr.l)
+    snakeHash[snakeArr[snakeArr.length - 1].y][snakeArr[snakeArr.length - 1]]= false;
     for (let i = snakeArr.length - 2; i >= 0; i--) {
         // const element = array[i];
         // console.log("hello");
@@ -72,6 +102,7 @@ function gameEngine() {
     }
     snakeArr[0].x += inputDir.x;
     snakeArr[0].y += inputDir.y;
+    snakeHash[snakeArr[0].y][snakeArr[0].x] = true;
 
     //part2: display the snake and food
     //display the snake
