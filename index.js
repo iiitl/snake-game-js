@@ -66,7 +66,7 @@ function gameEngine() {
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
         score += 1
-        
+        speed += 0.1
         
     }
 
