@@ -55,12 +55,7 @@ function gameEngine() {
             <button id="play-again-btn">Play Again</button>
         `;
         }else{
-            popup.innerHTML = `
-            <h2>Game Over!</h2>
-            <p>Your Score: ${score}</p>
-            <p>Max Score: ${maxScore}</p>
-            <button id="play-again-btn">Play Again</button>
-        `;
+          alert("Game over. Press any key to play again");
         }
         
         document.body.appendChild(popup);
