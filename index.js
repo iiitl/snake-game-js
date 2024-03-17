@@ -50,11 +50,13 @@ function gameEngine() {
         inputDir = { x: 0, y: 0 };
         alert("Game over. Press any key to play again");
         snakeArr = [{ x: 13, y: 15 }];
+        speed = 5;
         // musicSound.play();
     }
 
     //IF you have eaten the food, increment the score and regenerate the food
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
+        speed+= 0.1;
         // console.log("food")
         foodSound.play();
 
