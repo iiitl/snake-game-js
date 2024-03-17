@@ -1,9 +1,9 @@
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-}
-.body{
+  }
+  .body {
     background: url(img/bg.jpg);
     min-height: 100vh;
     width: 100vw;
@@ -12,66 +12,66 @@
     background-repeat: no-repeat;
     justify-content: center;
     align-items: center;
-}
-#score{
+  }
+  #score {
     position: absolute;
     top: 15px;
     right: 5vw;
     font-size: 3vw;
     font-weight: bold;
     font-family: cursive;
-    
-}
-#maxScoreCont{
+  }
+  #maxScoreCont {
     position: absolute;
     top: 70px;
     right: 5vw;
     font-size: 1.5vw;
     font-weight: bold;
-    font-family: cursive;  
-}
-#board{
-    background: linear-gradient(rgb(170,236,170),rgb(236,236,167));
+    font-family: cursive;
+  }
+  #board {
+    background: linear-gradient(rgb(170, 236, 170), rgb(236, 236, 167));
     width: 90vmin;
     height: 92vmin;
     border: 2px solid black;
     display: grid;
-    grid-template-rows: repeat(18,1fr);
-    grid-template-columns: repeat(18,1fr);
-}
-.head{
+    grid-template-rows: repeat(18, 1fr);
+    grid-template-columns: repeat(18, 1fr);
+    margin-right: 10vw;
+  }
+  .head {
     --top: 80%;
     --bottom: 10%;
     --left: 2%;
     --right: 2%;
     --direction: row;
-    background:linear-gradient(rgb(228, 151, 151),rgb(239, 239, 97));
+    background: linear-gradient(rgb(228, 151, 151), rgb(239, 239, 97));
     border: 2px solid purple;
     transform: scale(1.02);
     border-radius: 9px;
     display: flex;
     /* align-items: space-evenly;
-    justify-content: space-evenly; */
+      justify-content: space-evenly; */
     /* gap: 20px; */
     flex-direction: var(--direction);
     padding-top: var(--top);
-    padding-bottom:var(--bottom);
+    padding-bottom: var(--bottom);
     padding-left: var(--left);
     padding-right: var(--right);
-}
-.snake{
+  }
+  .snake {
     background-color: purple;
-    border: .25vmin solid white;
+    border: 0.25vmin solid white;
     border-radius: 12px;
     /* z-index: 50; */
-}
-.food{
+  }
+  .food {
     /* background-color: rgb(255, 98, 0); */
-    background: linear-gradient(red,purple);
-    border: .25vmin solid black;
+    background: linear-gradient(red, purple);
+    border: 0.25vmin solid black;
     border-radius: 8px;
-}
-.eyes{
+  }
+  .eyes {
     width: 4px;
     height: 4px;
     background-color: black;
@@ -80,4 +80,127 @@
     border-radius: 50%;
     margin: auto;
     /* border-radius: 50%; */
-}
+  }
+  
+  /* CSS for added functionalities */
+  .controls {
+    position: absolute;
+    top: 100px;
+    right: 5vw;
+  }
+  
+  #pauseBtn {
+    width: 50px;
+    height: 50px;
+    background-image: url("https://t4.ftcdn.net/jpg/03/57/35/57/360_F_357355728_7ezXudFDFO42K6cvQbksnCKLtnUbFCuC.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+  }
+  
+  #pauseBtn.paused {
+    width: 50px;
+    height: 50px;
+    background-image: url("https://static.thenounproject.com/png/1343174-200.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+  }
+  
+  #muteBtn {
+    width: 50px;
+    height: 50px;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/6398/6398985.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+  }
+  
+  #muteBtn.muted {
+    width: 50px;
+    height: 50px;
+    background-image: url("https://static.thenounproject.com/png/3528341-200.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+  }
+  
+  /* Style for full-screen and exit full-screen button */
+  #fullScreenBtn {
+    width: 50px;
+    height: 50px;
+    background-image: url("https://static.thenounproject.com/png/1827140-200.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+  }
+  
+  #fullScreenBtn.fullscreen {
+    width: 50px;
+    height: 50px;
+    background-image: url("https://static.thenounproject.com/png/3752736-200.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+  }
+  
+  /* Difficulty settings */
+  
+  .difficulty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    top: 15px;
+    left: 5vw;
+    font-size: 1.2vw;
+    font-weight: bold;
+    font-family: cursive;
+  }
+  
+  .difficulty button {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  #easyBtn {
+    background-color: grey;
+    color: white;
+  }
+  
+  #mediumBtn {
+    background-color: grey;
+    color: white;
+  }
+  
+  #hardBtn {
+    background-color: grey;
+    color: white;
+  }
+  
+  .obstacle {
+    background-color: black;
+    border: 0.25vmin solid white;
+    border-radius: 12px;
+  }
+  #easyBtn.selected {
+    background-color: green;
+    color: white;
+  }
+  
+  #mediumBtn.selected {
+    background-color: yellow;
+    color: black;
+  }
+  
+  #hardBtn.selected {
+    background-color: red;
+    color: white;
+  }
