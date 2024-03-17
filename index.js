@@ -4,7 +4,8 @@ let maxScoreCont = document.getElementById('maxScoreCont');
 let HeadEle;
 // console.log(HeadEle);
 let inputDir = { x: 0, y: 0 };
-
+let score = 0;
+let maxScore = localStorage.getItem("maxScore") || 0;
 const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameOver.mp3');
 const moveSound = new Audio('music/move.mp3');
@@ -43,9 +44,15 @@ function gameEngine() {
         gameOverSound.play();
         musicSound.pause();
         inputDir = { x: 0, y: 0 };
+        if(score>maxScore){
+            localStorage.setItem("maxScore",score);
+        }
         alert("Game over. Press any key to play again");
+        score=0;
         snakeArr = [{ x: 13, y: 15 }];
         // musicSound.play();
+        maxScore = localStorage.getItem("maxScore");
+        
     }
 
     //IF you have eaten the food, increment the score and regenerate the food
@@ -58,6 +65,8 @@ function gameEngine() {
         let a = 2;
         let b = 16;
         food = { x: 2 + Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) }
+        score += 1
+        
     }
 
     //Moving the snake
@@ -127,7 +136,9 @@ function gameEngine() {
     })
 
     //part2: display the snake
-
+    console.log(score)
+    scoreCont.innerHTML = "Score: "+score;
+    maxScoreCont.innerHTML = "Max-Score: "+maxScore
     foodElement = document.createElement('div');
     foodElement.style.gridRowStart = food.y;
     foodElement.style.gridColumnStart = food.x;
